@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vijener shifrlash</title>
+</head>
+<body>
+    <div id="container">
+        <h2>Vijener Shifrlash</h2>
+        <label for="plaintext">Matinni kiriting:</label>
+        <input type="text" id="plaintext" placeholder="Matinni kiriting...">
+        <label for="key">Kalitni kiriting:</label>
+        <input type="text" id="key" placeholder="Kalitni kiriting...">
+        <button onclick="encrypt()">Shifrlash</button>
+        <button onclick="decrypt()">Deshifrlash</button>
+        <div id="output">Natija:</div>
+    </div>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: rgb(224, 224, 224);
+        }
+
+        #container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #b5a6a6;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #output {
+            text-align: start;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #afa4a4;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function encrypt() {
+            var plaintext = document.getElementById('plaintext').value.toUpperCase();
+            var key = document.getElementById('key').value.toUpperCase();
+            var ciphertext = '';
+
+            for (var i = 0, j = 0; i < plaintext.length; i++) {
+                var charCode = plaintext.charCodeAt(i);
+                
+                if (charCode >= 65 && charCode <= 90) {
+                    var shift = key.charCodeAt(j % key.length) - 65;
+                    ciphertext += String.fromCharCode((charCode - 65 + shift) % 26 + 65);
+                    j++;
+                } else {
+                    ciphertext += plaintext[i];
+                }
+            }
+
+            document.getElementById('output').innerText = 'Shifrlangan matn: ' + ciphertext;
+        }
+
+        function decrypt() {
+            var ciphertext = document.getElementById('plaintext').value.toUpperCase();
+            var key = document.getElementById('key').value.toUpperCase();
+            var plaintext = '';
+
+            for (var i = 0, j = 0; i < ciphertext.length; i++) {
+                var charCode = ciphertext.charCodeAt(i);
+                
+                if (charCode >= 65 && charCode <= 90) {
+                    var shift = key.charCodeAt(j % key.length) - 65;
+                    plaintext += String.fromCharCode((charCode - 65 - shift + 26) % 26 + 65);
+                    j++;
+                } else {
+                    plaintext += ciphertext[i];
+                }
+            }
+
+            document.getElementById('output').innerText = 'Deshifrlangan matn: ' + plaintext;
+        }
+    </script>
+</body>
+</html>
